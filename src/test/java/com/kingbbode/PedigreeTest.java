@@ -1,6 +1,6 @@
-package com.kingbbode.sudda;
+package com.kingbbode;
 
-import com.kingbbode.ultron.sudda.Pedigree;
+import com.kingbbode.domain.Pedigree;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -10,7 +10,7 @@ import static org.hamcrest.core.Is.is;
  * Created by YG on 2017-07-17.
  */
 public class PedigreeTest {
-    
+
     @Test
     public void 섰다_승리_테스트_일반_스코어() throws Exception {
         assertThat(Pedigree.DDANG_GWANG_38.verifyVictoryConditions(Pedigree.DDANG_GWANG_18), is(true));

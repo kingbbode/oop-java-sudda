@@ -1,6 +1,5 @@
-package com.kingbbode.ultron.sudda;
+package com.kingbbode.domain;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -49,7 +48,7 @@ public enum Card {
     TEN_2(10, true),
     TEN_3(10, false),
     TEN_4(10, false);
-    
+
     private int number;
     private boolean isKing;
 
@@ -66,9 +65,9 @@ public enum Card {
         return isKing;
     }
 
-    public static List<Card> generateGameDeck(){
+    public static List<Card> generateGameDeck() {
         List<Card> cards = Arrays.asList(Card.values());
-        for(int i=0;i<100;i++) {
+        for (int i = 0; i < 100; i++) {
             Collections.shuffle(cards);
         }
         return cards;

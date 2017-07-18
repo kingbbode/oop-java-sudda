@@ -1,8 +1,8 @@
-package com.kingbbode.sudda;
+package com.kingbbode;
 
-import com.kingbbode.ultron.sudda.Card;
-import com.kingbbode.ultron.sudda.Pedigree;
-import com.kingbbode.ultron.sudda.Rule;
+import com.kingbbode.domain.Card;
+import com.kingbbode.domain.Pedigree;
+import com.kingbbode.domain.Rule;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -33,7 +33,7 @@ public class RuleTest {
         assertThat(Rule.findAvailableResult(Arrays.asList(Card.FORE_2, Card.FIVE_1, Card.SIX_1)).contains(Pedigree.KKEUT9), is(true));
         assertThat(Rule.findAvailableResult(Arrays.asList(Card.FORE_2, Card.FIVE_1, Card.SIX_1)).contains(Pedigree.KKEUT1), is(true));
         assertThat(Rule.findAvailableResult(Arrays.asList(Card.FORE_2, Card.FIVE_1, Card.SIX_1)).contains(Pedigree.KKEUT0), is(false));
-        
+
         assertThat(Rule.findAvailableResult(Arrays.asList(Card.ONE_2, Card.FIVE_1, Card.FORE_2)).contains(Pedigree.DOGSA), is(true));
         assertThat(Rule.findAvailableResult(Arrays.asList(Card.ONE_2, Card.FIVE_1, Card.FORE_2)).contains(Pedigree.KKEUT6), is(true));
         assertThat(Rule.findAvailableResult(Arrays.asList(Card.ONE_2, Card.FIVE_1, Card.FORE_2)).contains(Pedigree.KKEUT9), is(true));
