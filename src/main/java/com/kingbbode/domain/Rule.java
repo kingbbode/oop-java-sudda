@@ -2,7 +2,6 @@ package com.kingbbode.domain;
 
 import javafx.util.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,15 +26,22 @@ public enum Rule {
     AMHENG((card1, card2) -> containsKkeutNumber(card1, card2, 4) && containsKkeutNumber(card1, card2, 7) ? Optional.of(Pedigree.AMHENG) : Optional.empty()),
     KKEUT((card1, card2) -> Pedigree.findByScore(Pedigree.KKEUT0.getScore() + (card1.getNumber() + card2.getNumber()) % 10));
 
-    Rule(RuleFormal rule) {
-        this.rule = rule;
+    Rule(RuleFormal formal) {
+        this.formal = formal;
     }
 
-    private RuleFormal rule;
+    private RuleFormal formal;
+
+    public Optional<Pedigree> getResult(Card card1, Card card2) {
+        return this.formal.apply(card1, card2);
+    }
+
+    private interface RuleFormal {
+        Optional<Pedigree> apply(Card card1, Card card2);
+    }
 
     public static List<Pedigree> findAvailableResult(List<Card> deck) {
         Map<Pair<Card, Card>, Pedigree> resultMap = getCandidatePair(deck);
-        List<Pedigree> specialCasePedigree = new ArrayList<>();
         for (Rule rule : Rule.values()) {
             for (Pair<Card, Card> pair : resultMap.keySet()) {
                 Optional<Pedigree> result = rule.getResult(pair.getKey(), pair.getValue());
@@ -45,17 +51,12 @@ public enum Rule {
                 resultMap.put(pair, result.get());
             }
         }
-        specialCasePedigree.addAll(resultMap.values());
-        return specialCasePedigree.stream().filter(pedigree -> pedigree != Pedigree.ERROR).distinct().collect(Collectors.toList());
+        return resultMap.values().stream().filter(pedigree -> pedigree != Pedigree.ERROR).distinct().collect(Collectors.toList());
     }
 
     private static Map<Pair<Card, Card>, Pedigree> getCandidatePair(List<Card> deck) {
         return IntStream.range(0, deck.size())
                 .mapToObj((int i) -> IntStream.range(i + 1, deck.size()).mapToObj(j -> new Pair<>(deck.get(i), deck.get(j)))).flatMap(pairStream -> pairStream).collect(Collectors.toMap(k -> k, v -> Pedigree.ERROR));
-    }
-
-    public Optional<Pedigree> getResult(Card card1, Card card2) {
-        return this.rule.apply(card1, card2);
     }
 
     private static boolean containsNumbers(Card card1, Card card2, int number1, int number2) {
@@ -72,9 +73,5 @@ public enum Rule {
 
     private static boolean containsKingAndNumber(Card card1, Card card2, boolean isKing, int number) {
         return (card1.isKing() == isKing && card1.getNumber() == number) || (card2.isKing() == isKing && card2.getNumber() == number);
-    }
-
-    interface RuleFormal {
-        Optional<Pedigree> apply(Card card1, Card card2);
     }
 }

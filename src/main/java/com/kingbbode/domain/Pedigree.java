@@ -52,16 +52,16 @@ public enum Pedigree {
         this.victoryConditions = Arrays.asList(victoryConditions);
     }
 
-    public boolean verifyVictoryConditions(Pedigree challenger) {
-        return this.victoryConditions.stream().allMatch(condition -> condition.isVictory(this, challenger));
-    }
-
     public int getScore() {
         return Card.values().length - this.ordinal() - 1;
     }
 
     public String getName() {
         return name;
+    }
+
+    public boolean verifyVictoryConditions(Pedigree challenger) {
+        return this.victoryConditions.stream().allMatch(condition -> condition.isVictory(this, challenger));
     }
 
     public static Optional<Pedigree> findByScore(int score) {
@@ -74,17 +74,17 @@ public enum Pedigree {
         CONDITION_BY_AMHENG((self, challenger) -> !contains(self, challenger, Pedigree.AMHENG) || self == Pedigree.AMHENG && (challenger == Pedigree.DDANG_GWANG_18 || challenger == Pedigree.DDANG_GWANG_13)),
         CONDITION_ALWAYS_WINDER((self, challenger) -> false);
 
-        private Pedigree.Condition.ConditionFormal condition;
+        private ConditionFormal formal;
 
-        Condition(Pedigree.Condition.ConditionFormal condition) {
-            this.condition = condition;
+        Condition(ConditionFormal formal) {
+            this.formal = formal;
         }
 
         boolean isVictory(Pedigree self, Pedigree challenger) {
-            return this.condition.apply(self, challenger);
+            return this.formal.apply(self, challenger);
         }
 
-        interface ConditionFormal {
+        private interface ConditionFormal {
             boolean apply(Pedigree self, Pedigree challenger);
         }
 

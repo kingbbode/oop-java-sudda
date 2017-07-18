@@ -1,8 +1,6 @@
 package com.kingbbode.domain;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by YG on 2017_07_13.
@@ -65,12 +63,12 @@ public enum Card {
         return isKing;
     }
 
-    public static List<Card> generateGameDeck() {
+    public static Queue<Card> generateGameDeck() {
         List<Card> cards = Arrays.asList(Card.values());
         for (int i = 0; i < 100; i++) {
             Collections.shuffle(cards);
         }
-        return cards;
+        return new LinkedList<>(cards);
     }
 }
 
