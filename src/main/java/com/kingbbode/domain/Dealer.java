@@ -8,13 +8,15 @@ import java.util.stream.Collectors;
  * Created by YG on 2017-07-18.
  */
 public class Dealer {
-    
+
+    private GameMessengerInterface messenger;
     private Queue<Card> deck;
-    private final Pane pane;
+    private Pane pane;
     private List<Player> players;
     private Mc mc;
 
-    Dealer() {
+    Dealer(GameMessengerInterface messenger) {
+        this.messenger = messenger;
         this.deck = Card.generateGameDeck();
         this.pane = new Pane();
     }
@@ -22,24 +24,40 @@ public class Dealer {
     void introduce(Mc mc, Collection<Player> players) {
         this.mc = mc;
         this.players = (List<Player>) players;
+        this.players.forEach(player -> {
+            player.introduce(this);
+            messenger.send(player.getId(),  player.getName() + "님 반갑습니다. 저는 딜러입니다.");
+        });
     }
     
     public void distributeCard(){
-        players.stream().filter(Player::isLive).forEach(player -> player.receiveCard(deck.poll()));
+        players.stream().filter(Player::isLive).forEach(player -> {
+            Card card = deck.poll();
+            player.receiveCard(card);
+            messenger.send(player.getId(), "새로 뽑은 카드는 [" + card.getName() + "] 입니다.");
+        });
     }
 
-    public void batting(int batMoney){
+    public void announceBatTableInfo(Player player){
+        String info = "베팅 정보" + "\n" +
+                "***********" + "\n" +
+                getBatTableInfo() +
+                "\n" +
+                "소유 금액 : " + player.getGameMoney() + "\n";
+        messenger.send(player.getId(), info);
+    }
+
+    public int batting(Player player, Batting batting){
+        int batMoney = pane.batTable.get(batting);
         pane.batting(batMoney);
-        mc.turnOff();
-    }
+        mc.notify(player, batting);
 
-    public int guideBatMoney(Batting batting){
-        return pane.batTable.get(batting);
+        return batMoney;
     }
 
     public String getBatTableInfo(){
         StringBuilder stringBuilder = new StringBuilder();
-        pane.batTable.forEach((key, value) -> stringBuilder.append(key.getName()).append(" - ").append(value));
+        pane.batTable.forEach((key, value) -> stringBuilder.append(key.getName()).append(" - ").append(value).append("\n"));
         return stringBuilder.toString();
     }
 

@@ -70,5 +70,9 @@ public enum Card {
         }
         return new LinkedList<>(cards);
     }
+
+    public String getName() {
+        return number + (isKing?"광":"끗");
+    }
 }
 

@@ -55,12 +55,15 @@ public class Player {
     }
     
     public void batting(Batting batting){
-        int cost = this.dealer.guideBatMoney(batting);
+        int cost = dealer.batting(this, batting);
         if(cost > this.gameMoney){
             this.gameMoney = 0;
             return;
         }
         this.gameMoney -= cost;
-        dealer.batting(cost);
+    }
+
+    public int getGameMoney() {
+        return gameMoney;
     }
 }
