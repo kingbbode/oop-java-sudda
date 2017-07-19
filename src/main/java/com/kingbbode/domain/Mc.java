@@ -2,7 +2,6 @@ package com.kingbbode.domain;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by YG on 2017-07-18.
@@ -28,14 +27,6 @@ public class Mc {
         stringBuilder.append("님 반갑습니다. 저는 MC 입니다");
         messenger.broadcast(stringBuilder.toString());
     }
-
-    public boolean isFin(){
-        return players.stream().filter(Player::isLive).count() ==1 || (turnCount+1/players.size()) >= MAX_TURN_COUNT;
-    }
-    
-    public void nextStep() {
-        dealer.distributeCard();
-    }
     
     public Player whoIsCurrentPlayer() {
         Player player = players.get(turnCount%players.size());
@@ -47,7 +38,7 @@ public class Mc {
     }
 
     public void turnOff() {
-        if(isFin()){
+        if(isTurnEnd()){
             messenger.broadcast("모든 턴이 종료되었습니다. 플레이어들은 결과를 제출해주세요.");
             return;
         }
@@ -58,5 +49,18 @@ public class Mc {
 
     public void notify(Player player, Batting batting) {
         messenger.broadcast(player.getName() + "님 " + batting.getName() + "!!");
+        this.turnOff();
+    }
+
+    private boolean isTurnEnd(){
+        return (turnCount+1/players.size()) >= MAX_TURN_COUNT;
+    }
+
+    private boolean isAllDie(){
+        return players.stream().filter(Player::isLive).count() ==1;
+    }
+
+    private void nextStep() {
+        dealer.distributeCard();
     }
 }

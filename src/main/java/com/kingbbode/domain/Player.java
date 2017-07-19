@@ -2,6 +2,7 @@ package com.kingbbode.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by YG on 2017-07-18.
@@ -17,6 +18,7 @@ public class Player {
 
     Player(String playerId, String name, int gameMoney) {
         this.id = playerId;
+        this.name = name;
         this.gameMoney = gameMoney;
         this.deck = new ArrayList<>();
         this.live = true;
@@ -65,5 +67,9 @@ public class Player {
 
     public int getGameMoney() {
         return gameMoney;
+    }
+
+    public boolean isSamePlayer(String playerId) {
+        return Objects.equals(this.id, playerId);
     }
 }
