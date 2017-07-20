@@ -92,4 +92,10 @@ public class PedigreeTest {
         assertThat(Pedigree.DDANG_KILLER.verifyVictoryConditions(Pedigree.DDANG10), is(false));
         assertThat(Pedigree.DDANG_KILLER.verifyVictoryConditions(Pedigree.KKEUT1), is(false));
     }
+
+    @Test
+    public void 특수규칙_패배_테스트() throws Exception {
+        assertThat(Pedigree.AMHENG.verifyVictoryConditions(Pedigree.KKEUT1), is(false));
+        assertThat(Pedigree.KKEUT1.verifyVictoryConditions(Pedigree.AMHENG), is(true));
+    }
 }
