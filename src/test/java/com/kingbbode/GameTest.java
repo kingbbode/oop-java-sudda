@@ -2,17 +2,11 @@ package com.kingbbode;
 
 import com.kingbbode.game.Game;
 import com.kingbbode.game.GameConsoleMessager;
-import com.kingbbode.game.GameMessengerInterface;
-import com.kingbbode.game.domain.Dealer;
-import com.kingbbode.game.domain.Mc;
-import com.kingbbode.game.domain.Player;
-import com.kingbbode.game.enums.Scenario;
 import com.kingbbode.game.exceptions.AlreadyJoinException;
 import com.kingbbode.game.exceptions.TooManyPlayerException;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
 import java.util.Random;
 
 import static org.hamcrest.MatcherAssert.assertThat;

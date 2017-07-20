@@ -106,43 +106,56 @@ public class Dealer {
     }
 
     public Player chooseVictor() {
-        return chooseVictorBySpecialPedigree(chooseVictorByScore()).getKey();
-    }
-
-    private Map.Entry<Player, Pedigree> chooseVictorByScore() {
-        Map.Entry<Player, Pedigree> winner = null;
-        for(Map.Entry<Player, Pedigree> chellenger : results.entrySet()){
-            if(Pedigree.isSpecialPedigree(chellenger.getValue())){
-                continue;
-            }
-            if(winner == null){
-                winner = chellenger;
-                continue;
-            }
-            if(winner.getValue().verifyVictoryConditions(chellenger.getValue())){
-                continue;
-            }
-            winner = chellenger;
+        Match match = new Match();
+        for(Map.Entry<Player, Pedigree> challenger : results.entrySet()){
+            match.challengeByScore(challenger);
         }
-        return winner;
-    }
-
-    private Map.Entry<Player, Pedigree> chooseVictorBySpecialPedigree(Map.Entry<Player, Pedigree> currentWinner) {
-        Map.Entry<Player, Pedigree> winner = currentWinner;
-        for(Map.Entry<Player, Pedigree> chellenger : results.entrySet()){
-            if(winner == null){
-                winner = chellenger;
-                continue;
-            }
-            if(!Pedigree.isSpecialPedigree(chellenger.getValue())){
-                continue;
-            }
-            if(winner.getValue().verifyVictoryConditions(chellenger.getValue())){
-                continue;
-            }
-            winner = chellenger;
+        for(Map.Entry<Player, Pedigree> challenger : results.entrySet()){
+            match.challengeBySpecialPedigree(challenger);
         }
-        return winner;
+        return match.isDraw()?null:match.player;
+    }
+    
+    public class Match {
+        private Pedigree drawerPedigree;
+        private Player player;
+        private Pedigree winnerPedigree;
+        
+        boolean isDraw() {
+            return drawerPedigree != null && drawerPedigree == winnerPedigree;
+        }
+        
+        void challengeByScore(Map.Entry<Player, Pedigree> challenger){
+            if(Pedigree.isSpecialPedigree(challenger.getValue())){
+                return;
+            }
+            this.challenge(challenger);
+        }
+
+        void challengeBySpecialPedigree(Map.Entry<Player, Pedigree> challenger){
+            if(!Pedigree.isSpecialPedigree(challenger.getValue())){
+                return;
+            }
+            this.challenge(challenger);
+        }
+        
+        private void challenge(Map.Entry<Player, Pedigree> challenger){
+            if(this.winnerPedigree == null){
+                this.player = challenger.getKey();
+                this.winnerPedigree = challenger.getValue();
+                return;
+            }
+
+            if(this.winnerPedigree == challenger.getValue()){
+                this.drawerPedigree = challenger.getValue();
+                return;
+            }
+            if(this.winnerPedigree.verifyVictoryConditions(challenger.getValue())){
+                return;
+            }
+            this.player = challenger.getKey();
+            this.winnerPedigree = challenger.getValue();
+        }
     }
 
     @Getter

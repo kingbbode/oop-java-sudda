@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -112,5 +113,27 @@ public class DealerTest {
     public void 공통_분배_테스트() throws Exception {
         dealer.distributeBatMoney();
         assertThat(players.get(0).getGameMoney(), is(10100));
+    }
+    
+    @Test
+    public void 무승부_테스트_스코어() throws Exception {
+        Map<Player, Pedigree> results = new HashMap<>();
+        results.put(players.get(0), Pedigree.DDANG3);
+        results.put(players.get(1), Pedigree.DDANG3);
+        results.put(players.get(2), Pedigree.KKEUT3);
+        results.put(players.get(3), Pedigree.AMHENG);
+        dealer = new Dealer(new GameConsoleMessager(), results);
+        assertThat(dealer.chooseVictor(), nullValue());
+    }
+
+    @Test
+    public void 무승부_테스트_특수_케이스() throws Exception {
+        Map<Player, Pedigree> results = new HashMap<>();
+        results.put(players.get(0), Pedigree.DDANG_GWANG_13);
+        results.put(players.get(1), Pedigree.KKEUT3);
+        results.put(players.get(2), Pedigree.AMHENG);
+        results.put(players.get(3), Pedigree.AMHENG);
+        dealer = new Dealer(new GameConsoleMessager(), results);
+        assertThat(dealer.chooseVictor(), nullValue());
     }
 }
