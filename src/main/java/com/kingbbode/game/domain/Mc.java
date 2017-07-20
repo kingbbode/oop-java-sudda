@@ -52,7 +52,6 @@ public class Mc {
     public Scenario notifyBatting(Player player, Batting batting) {
         this.messenger.broadcast(player.getName() + "님 " + batting.getName() + "!!");
         playerTurnCount++;
-        System.out.println(playerTurnCount);
         Scenario scenario = checkDoingStatus();
         if (scenario != null) {
             return scenario;
@@ -115,7 +114,6 @@ public class Mc {
         while(!player.canBatting()){
             this.messenger.broadcast(player.getName() + "님은 [" + player.getStatus() + "] 상태이므로 차례를 넘깁니다.");
             playerTurnCount++;
-            System.out.println(playerTurnCount);
             player = whoIsCurrentPlayer();
             Scenario scenario = checkDoingStatus();
             if (scenario != null) {
