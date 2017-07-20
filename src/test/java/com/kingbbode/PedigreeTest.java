@@ -1,6 +1,6 @@
 package com.kingbbode;
 
-import com.kingbbode.domain.Pedigree;
+import com.kingbbode.game.enums.Pedigree;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;

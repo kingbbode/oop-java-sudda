@@ -1,10 +1,11 @@
-package com.kingbbode.domain;
+package com.kingbbode.game.enums;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import static com.kingbbode.domain.Pedigree.Condition.*;
+import static com.kingbbode.game.enums.Pedigree.Condition.*;
 
 
 /**
@@ -42,6 +43,7 @@ public enum Pedigree {
     KKEUT2("2끗", CONDITION_BY_SCORE),
     KKEUT1("1끗", CONDITION_BY_SCORE),
     KKEUT0("망통", CONDITION_BY_SCORE),
+    DIE("사망", CONDITION_BY_SCORE),
     ERROR("시스템 에러", CONDITION_ALWAYS_WINDER);
 
     private String name;
@@ -68,6 +70,17 @@ public enum Pedigree {
         return Arrays.stream(Pedigree.values()).filter(pedigree -> pedigree.getScore() == score).findFirst();
     }
 
+    public static List<String> getNameList() {
+        return Arrays.stream(Pedigree.values()).map(Pedigree::getName).collect(Collectors.toList());
+    }
+
+    public static Pedigree resolve(String name){
+        return Arrays.stream(Pedigree.values()).filter(pedigree -> name.equals(pedigree.getName())).findAny().orElseGet(null);
+    }
+    
+    public static boolean isSpecialPedigree(Pedigree pedigree) {
+        return pedigree == Pedigree.AMHENG || pedigree == Pedigree.DDANG_KILLER;
+    }
     enum Condition {
         CONDITION_BY_SCORE((self, challenger) -> self.getScore() > challenger.getScore()),
         CONDITION_BY_DDANG_KILLER((self, challenger) -> !contains(self, challenger, Pedigree.DDANG_KILLER) || self == Pedigree.DDANG_KILLER && challenger.getScore() < Pedigree.DDANG10.getScore() && challenger.getScore() > Pedigree.ALLI.getScore()),

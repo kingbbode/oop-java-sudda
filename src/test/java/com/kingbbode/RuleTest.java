@@ -1,8 +1,8 @@
 package com.kingbbode;
 
-import com.kingbbode.domain.Card;
-import com.kingbbode.domain.Pedigree;
-import com.kingbbode.domain.Rule;
+import com.kingbbode.game.enums.Card;
+import com.kingbbode.game.enums.Pedigree;
+import com.kingbbode.game.enums.Rule;
 import org.junit.Test;
 
 import java.util.Arrays;

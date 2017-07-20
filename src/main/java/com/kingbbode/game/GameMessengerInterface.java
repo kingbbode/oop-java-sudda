@@ -1,4 +1,4 @@
-package com.kingbbode.domain;
+package com.kingbbode.game;
 
 /**
  * Created by YG on 2017-07-18.

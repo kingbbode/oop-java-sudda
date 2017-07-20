@@ -1,4 +1,4 @@
-package com.kingbbode.exceptions;
+package com.kingbbode.game.exceptions;
 
 /**
  * Created by YG on 2017-07-18.

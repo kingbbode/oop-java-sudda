@@ -1,4 +1,8 @@
-package com.kingbbode.domain;
+package com.kingbbode.game.enums;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by YG on 2017-07-18.
@@ -27,7 +31,15 @@ public enum Batting {
     public String getName() {
         return name;
     }
-
+    
+    public static List<String> getNameList() {
+        return Arrays.stream(Batting.values()).map(Batting::getName).collect(Collectors.toList());
+    }
+    
+    public static Batting resolve(String name){
+        return Arrays.stream(Batting.values()).filter(batting -> name.equals(batting.getName())).findAny().orElseGet(null);
+    }
+    
     interface BattingFormal {
         int apply(int beforeBatMoney, int totalBatMoney);
     }

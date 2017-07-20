@@ -1,4 +1,4 @@
-package com.kingbbode.domain;
+package com.kingbbode.game.enums;
 
 import java.util.*;
 

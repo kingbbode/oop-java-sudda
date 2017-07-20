@@ -1,4 +1,4 @@
-package com.kingbbode.domain;
+package com.kingbbode.game.enums;
 
 import javafx.util.Pair;
 
@@ -45,13 +45,17 @@ public enum Rule {
         for (Rule rule : Rule.values()) {
             for (Pair<Card, Card> pair : resultMap.keySet()) {
                 Optional<Pedigree> result = rule.getResult(pair.getKey(), pair.getValue());
-                if (!result.isPresent() || (!(result.get() == Pedigree.AMHENG || result.get() == Pedigree.DDANG_KILLER) && resultMap.get(pair).verifyVictoryConditions(result.get()))) {
+                if (!result.isPresent() || isSpecialCase(resultMap.get(pair)) || (!isSpecialCase(result.get())  && resultMap.get(pair).verifyVictoryConditions(result.get()))) {
                     continue;
                 }
                 resultMap.put(pair, result.get());
             }
         }
         return resultMap.values().stream().filter(pedigree -> pedigree != Pedigree.ERROR).distinct().collect(Collectors.toList());
+    }
+
+    private static boolean isSpecialCase(Pedigree pedigree) {
+        return pedigree == Pedigree.AMHENG || pedigree == Pedigree.DDANG_KILLER;
     }
 
     private static Map<Pair<Card, Card>, Pedigree> getCandidatePair(List<Card> deck) {
