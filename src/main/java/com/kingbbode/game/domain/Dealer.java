@@ -59,10 +59,12 @@ public class Dealer {
         messenger.send(player.getId(), info.toString());
     }
 
-    public int batting(Batting batting){
-        int batMoney = pane.batTable.get(batting);
+    public int getBatMoney(Batting batting){
+        return pane.batTable.get(batting);
+    }
+
+    public void batting(int batMoney){
         pane.batting(batMoney);
-        return batMoney;
     }
 
     public String getBatTableInfo(){

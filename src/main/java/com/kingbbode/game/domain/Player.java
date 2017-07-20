@@ -52,11 +52,13 @@ public class Player {
             die();
             return;
         }
-        int cost = dealer.batting(batting);
+        int cost = dealer.getBatMoney(batting);
         if(cost > this.gameMoney){
+            dealer.batting(this.gameMoney);
             this.gameMoney = 0;
             return;
         }
+        dealer.batting(cost);
         this.gameMoney -= cost;
     }
 
