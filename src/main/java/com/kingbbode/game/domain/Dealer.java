@@ -47,12 +47,16 @@ public class Dealer {
     }
 
     public void announceBatTableInfo(Player player){
-        String info = "베팅 정보" + "\n" +
-                "***********" + "\n" +
-                getBatTableInfo() +
-                "\n" +
-                "소유 금액 : " + player.getGameMoney() + "\n";
-        messenger.send(player.getId(), info);
+        StringBuilder info = new StringBuilder("베팅 정보");
+        info.append("\n")
+                .append("***********")
+                .append("\n")
+                .append(getBatTableInfo())
+                .append("\n")
+                .append("소유 금액 : ")
+                .append(player.getGameMoney())
+                .append("\n");
+        messenger.send(player.getId(), info.toString());
     }
 
     public int batting(Batting batting){
