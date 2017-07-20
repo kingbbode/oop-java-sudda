@@ -35,9 +35,9 @@ public class DealerTest {
         players.add(new Player("3", "김영재", 10000));
         players.add(new Player("4", "이동욱", 10000));
         dealer.introduce(players);
-        dealer.batting(Batting.CALL);
-        dealer.batting(Batting.CALL);
-        dealer.batting(Batting.CALL);
+        dealer.batting(dealer.getBatMoney(Batting.CALL));
+        dealer.batting(dealer.getBatMoney(Batting.CALL));
+        dealer.batting(dealer.getBatMoney(Batting.CALL));
     }
 
     @Test
@@ -86,9 +86,9 @@ public class DealerTest {
         results.put(players.get(3), Pedigree.AMHENG);
         dealer = new Dealer(new GameConsoleMessager(), results);
         dealer.introduce(players);
-        dealer.batting(Batting.CALL);
-        dealer.batting(Batting.CALL);
-        dealer.batting(Batting.CALL);
+        dealer.batting(dealer.getBatMoney(Batting.CALL));
+        dealer.batting(dealer.getBatMoney(Batting.CALL));
+        dealer.batting(dealer.getBatMoney(Batting.CALL));
         assertThat(dealer.chooseVictor(), is(players.get(0)));
         results = new HashMap<>();
         results.put(players.get(0), Pedigree.DDANG_GWANG_18);
@@ -97,9 +97,9 @@ public class DealerTest {
         results.put(players.get(3), Pedigree.AMHENG);
         dealer = new Dealer(new GameConsoleMessager(), results);
         dealer.introduce(players);
-        dealer.batting(Batting.CALL);
-        dealer.batting(Batting.CALL);
-        dealer.batting(Batting.CALL);
+        dealer.batting(dealer.getBatMoney(Batting.CALL));
+        dealer.batting(dealer.getBatMoney(Batting.CALL));
+        dealer.batting(dealer.getBatMoney(Batting.CALL));
         assertThat(dealer.chooseVictor(), is(players.get(3)));
     }
 
