@@ -59,7 +59,7 @@ public class Dealer {
         messenger.send(player.getId(), info.toString());
     }
 
-    public int getBatMoney(Batting batting){
+    public int getBattingCost(Batting batting){
         return pane.batTable.get(batting);
     }
 
